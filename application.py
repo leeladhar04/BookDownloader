@@ -1,6 +1,8 @@
 from flask import Flask, render_template, request, redirect, url_for
 import requests
 from bs4 import BeautifulSoup
+from src.exception import CustomException
+import sys
 
 app = Flask(__name__)
 
@@ -38,7 +40,7 @@ def fetch_book_details(book_name):
             return book_links, image_links
         return [], []
     except Exception as e:
-        raise Exception
+        raise CustomException(e,sys)
     
 
 
@@ -63,7 +65,7 @@ def search():
 
         return redirect(url_for('index'))
     except Exception as e:
-        raise Exception
+        raise CustomException(e,sys)    
 
 
 
