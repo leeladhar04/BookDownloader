@@ -19,11 +19,30 @@ if response.status_code==200:
     download_url=f"{BASE_SITE}{href}"
 
     book_name = book_link.find('div', class_="line-clamp-[2] leading-[1.2] text-[10px] lg:text-xs text-gray-500").text.strip()
-    book_links= soup.find_all('a', class_="js-vim-focus custom-a flex items-center relative left-[-10px] w-[calc(100%+20px)] px-2.5 outline-offset-[-2px] outline-2 rounded-[3px] hover:bg-black/6.7 focus:outline")
 
-    for books in book_links:
+
+    images = soup.find_all('img')
+
+# Iterate through the images and get their src attribute
+    image_links=[]
+    for img in images:
+        img_src = img.get('src')
+        image_links.append(img_src)
+        print(f"Image Source: {img_src}")
+
+    ############################### all books links #############################
+    all_book_links= soup.find_all('a', class_="js-vim-focus custom-a flex items-center relative left-[-10px] w-[calc(100%+20px)] px-2.5 outline-offset-[-2px] outline-2 rounded-[3px] hover:bg-black/6.7 focus:outline")
+    
+    book_links= []
+    # print(book_links)
+    for books in all_book_links:
+        book_links.append(books['href'])
         print(books['href'])
-        
+
+
+    print(len(image_links))
+    print(len(book_links))
+
     print(f"Book href: {href}")
     print(f"Book name: {book_name}")
 
@@ -35,8 +54,10 @@ if response.status_code==200:
         slow_download_links = download_soup.find_all('a', href=lambda x: x and '/slow_download/' in x)
 
         # Extract the href attribute for each link
+        
         for link in slow_download_links:
             print(f"{BASE_SITE}{link['href']}")
+
     else:
         print("Failed to download book")
 

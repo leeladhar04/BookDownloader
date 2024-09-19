@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Results</title>
+    <style>
+        .book {
+            margin-bottom: 20px;
+        }
+        .book img {
+            max-width: 150px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Search Results</h1>
+    {% if results %}
+        {% for result in results %}
+            <div class="book">
+                <h2>{{ result.book.name }}</h2>
+                {% if result.image %}
+                    <img src="{{ result.image }}" alt="{{ result.book.name }}">
+                {% else %}
+                    <p>No image found.</p>
+                {% endif %}
+                <a href="{{ result.book.url }}" target="_blank">Download</a>
+            </div>
+        {% endfor %}
+    {% else %}
+        <p>No books found.</p>
+    {% endif %}
+    <a href="{{ url_for('index') }}">Search again</a>
+</body>
+</html>
